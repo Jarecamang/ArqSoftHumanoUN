@@ -13,11 +13,9 @@ import java.util.List;
  */
 public class HandleInterestArea {
 
-    public String addInterestAreaBean(String name, String username) {
-        UserDAO userDAO = new UserDAO();
+    public String addInterestAreaBean(UserDAO userDAO, InterestAreaDAO areaDAO, String name, String username) {
         User user = userDAO.searchByUsername(username);
         Areaofinterest area = new Areaofinterest();
-        InterestAreaDAO areaDAO = new InterestAreaDAO();
         area.setName(name);
         area.getUserSet().add(user);
         Areaofinterest areaObject = areaDAO.persist(area);
@@ -28,11 +26,9 @@ public class HandleInterestArea {
         }
     }
 
-    public List<String> getListOfInterestAreas(String username) {
-        InterestAreaDAO areaDAO = new InterestAreaDAO();
+    public List<String> getListOfInterestAreas(UserDAO userDAO, InterestAreaDAO areaDAO, String username) {
         List<Areaofinterest> areaslist = areaDAO.getAllAreasOfInterest();
         List<String> userAreas = new ArrayList<>();
-        UserDAO userDAO = new UserDAO();
         User user = userDAO.searchByUsername(username);
         for (Areaofinterest area : areaslist) {
             if (area.getUserSet().contains(user)) {

@@ -7,22 +7,25 @@ package DataAccess.DAO;
 
 import DataAccess.Entity.Contract;
 import DataAccess.Entity.User;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
  *
  * @author Alejandro
  */
+@Stateless
 public class ContractDAO {
 
-    public EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("TalentoHumanoPU");
+    @PersistenceContext(unitName = "TalentoHumanoPU")
+    private EntityManager em;
 
     public Contract persist(Contract contract) {
 
-        EntityManager em = emf1.createEntityManager();
         em.getTransaction().begin();
         try {
             em.persist(contract);
@@ -40,7 +43,6 @@ public class ContractDAO {
     
     public Contract edit(Contract contract, int contractPosition) {
         Contract contractNew = null;
-        EntityManager em = emf1.createEntityManager();
         em.getTransaction().begin();
         try {
             contractNew = em.merge(em.find(Contract.class, contract.getPkID()));
@@ -68,7 +70,6 @@ public class ContractDAO {
 
     public int getAmountOfSalariesEquals(double salary) {
 
-        EntityManager em = emf1.createEntityManager();
         Query q = em.createNamedQuery("Contract.findBySalary");
         q.setParameter("salary", salary);
         return q.getResultList().size();
@@ -77,7 +78,6 @@ public class ContractDAO {
 
     public int getAmountOfSalariesSmallerThan(double salary) {
 
-        EntityManager em = emf1.createEntityManager();
         Query q = em.createNamedQuery("Contract.findBySalarySmallerThan");
         q.setParameter("salary", salary);
         return q.getResultList().size();
@@ -86,7 +86,6 @@ public class ContractDAO {
 
     public int getAmountOfSalariesBiggerThan(double salary) {
 
-        EntityManager em = emf1.createEntityManager();
         Query q = em.createNamedQuery("Contract.findBySalaryBiggerThan");
         q.setParameter("salary", salary);
         return q.getResultList().size();
@@ -102,7 +101,6 @@ public class ContractDAO {
     }
 
     public Contract getUserContract(User id) {
-        EntityManager em = emf1.createEntityManager();
         Query q = em.createNamedQuery("Contract.findByfkuserID");
         q.setParameter("fkuserID", id);
         Contract cont = (Contract) q.getSingleResult();

@@ -10,6 +10,8 @@ import BusinessLogic.Controller.HandleLogin;
 import BusinessLogic.Controller.HandleNotifications;
 import BusinessLogic.Controller.HandlePosition;
 import BusinessLogic.Controller.HandleUser;
+import DataAccess.DAO.UserDAO;
+import javax.ejb.EJB;
 import javax.faces.bean.RequestScoped;
 
 /**
@@ -23,6 +25,8 @@ public class LoginBean {
     String user;
     String password;
     String message;
+    @EJB
+    private UserDAO userDAO;
 
     public LoginBean() {
     }
@@ -53,7 +57,7 @@ public class LoginBean {
 
     public void login() {
         HandleLogin login = new HandleLogin();
-        message = login.doLogin(user, password);
+        message = login.doLogin(userDAO, user, password);
         if (message.charAt(0) == 'A') {//solo admin
             HandlePosition positionObject = new HandlePosition();
             positionObject.getPositions();
@@ -63,7 +67,7 @@ public class LoginBean {
             hanp.getPositions();
             HandleLogin hl = new HandleLogin();
             HandleUser hu = new HandleUser();
-            hu.uploadPersonalData(user);
+            hu.uploadPersonalData(userDAO, user);
         }
         HandleNotifications hn = new HandleNotifications();
         hn.getNotifications();
@@ -77,6 +81,6 @@ public class LoginBean {
     public void back(String username) {
         HandleLogin hl = new HandleLogin();
         HandleUser hu = new HandleUser();
-        hu.back(username);
+        hu.back(userDAO, username);
     }
 }

@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class HandleContract {
 
-    public String doCreate(double salary, String type, Date startDate, Date endDate, String healthEnterprise, Date startHealth, String pensionEnterprise, Date startPension, Integer fkuserID, String userName, int contractPosition) {
+    public String doCreate(ContractDAO contractDAO, PositionDAO positionDAO, double salary, String type, Date startDate, Date endDate, String healthEnterprise, Date startHealth, String pensionEnterprise, Date startPension, Integer fkuserID, String userName, int contractPosition) {
         Contract contract = new Contract();
         User userObject = new User(fkuserID);
 
@@ -43,11 +43,8 @@ public class HandleContract {
             }
         }
 
-        PositionDAO positionDAO = new PositionDAO();
-
         contract.getPositionSet().add(positionDAO.searchByID(contractPosition));
 
-        ContractDAO contractDAO = new ContractDAO();
         Contract contractObject = contractDAO.persist(contract);
 
         if (contractObject != null) {

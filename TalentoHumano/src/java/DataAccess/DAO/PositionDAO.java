@@ -7,41 +7,36 @@ package DataAccess.DAO;
 
 import DataAccess.Entity.Position;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
  *
  * @author Alejandro
  */
+@Stateless
 public class PositionDAO {
 
-    public EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("TalentoHumanoPU");
+    @PersistenceContext(unitName = "TalentoHumanoPU")
+    private EntityManager em;
 
+    
     public Position persist(Position position) {
-
-        EntityManager em = emf1.createEntityManager();
-        em.getTransaction().begin();
-
+        //em = emf.createEntityManager();
         try {
             em.persist(position);
-            em.getTransaction().commit();
+            return position;
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-                em.close();
-            }
             return null;
         }
-        em.close();
-        return position;
     }
 
     public Position searchByName(String name) {
 
-        EntityManager em = emf1.createEntityManager();
         Position positionObject = null;
         Query q = em.createNamedQuery("Position.findByName");
         q.setParameter("name", name);
@@ -52,14 +47,12 @@ public class PositionDAO {
             e.printStackTrace();
             System.out.println("El usuario no existe");
         } finally {
-            em.close();
             return positionObject;
         }
     }
 
     public Position searchByID(int ID) {
 
-        EntityManager em = emf1.createEntityManager();
         Position positionObject = null;
         Query q = em.createNamedQuery("Position.findByPkID");
         q.setParameter("pkID", ID);
@@ -70,14 +63,12 @@ public class PositionDAO {
             e.printStackTrace();
             System.out.println("El usuario no existe");
         } finally {
-            em.close();
             return positionObject;
         }
     }
 
     public List<Position> searchAll() {
 
-        EntityManager em = emf1.createEntityManager();
         List<Position> positionObject = null;
         Query q = em.createNamedQuery("Position.findAll");
 
@@ -87,7 +78,6 @@ public class PositionDAO {
             e.printStackTrace();
             System.out.println("El usuario no existe");
         } finally {
-            em.close();
             return positionObject;
         }
     }

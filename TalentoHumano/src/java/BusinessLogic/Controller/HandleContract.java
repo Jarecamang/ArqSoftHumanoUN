@@ -54,8 +54,7 @@ public class HandleContract {
         }
     }
 
-    public String renewContract(double salary, String type, Date startDate, Date finalDate, String healthEnterprise, Date startHealth, String pensionEnterprise, Date startPension, long userDoccument, int contractPosition) {
-        UserDAO userDAO = new UserDAO();
+    public String renewContract(PositionDAO positionDAO, ContractDAO contractDAO, UserDAO userDAO, double salary, String type, Date startDate, Date finalDate, String healthEnterprise, Date startHealth, String pensionEnterprise, Date startPension, long userDoccument, int contractPosition) {
         User userObject = userDAO.searchByDoccument(userDoccument);
 
         if (userObject == null) {
@@ -84,19 +83,16 @@ public class HandleContract {
             }
         }
 
-        PositionDAO positionDAO = new PositionDAO();
-
         contract.getPositionSet().add(positionDAO.searchByID(contractPosition));
 
-        ContractDAO contractDAO = new ContractDAO();
         //busca contrato de este usuario
         Contract contratoUsuario = contractDAO.getUserContract(userObject);
-        contract.setPkID(contratoUsuario.getPkID());
         Contract contractObject = null;
         if(contratoUsuario == null){
             contractObject = contractDAO.persist(contract);
         }else{
-            contractObject = contractDAO.edit(contract, contractPosition);
+            contract.setPkID(contratoUsuario.getPkID());
+            contractObject = contractDAO.edit(positionDAO, contract, contractPosition);
         }
 
         if (contractObject

@@ -34,9 +34,20 @@ public class ContractDAO implements Serializable {
             return null;
         }
     }
-    
-    public Contract edit(Contract contract, int contractPosition) {
-        return null;
+
+    public Contract edit(PositionDAO positionDAO, Contract contract, int contractPosition) {
+        Contract dbContract = this.getById(contract.getPkID());
+        dbContract.setSalary(contract.getSalary());
+        dbContract.setType(contract.getType());
+        dbContract.setEnddate(contract.getEnddate());
+        dbContract.setStartDate(contract.getStartDate());
+        dbContract.setHealthEnterprise(contract.getHealthEnterprise());
+        dbContract.setStartHealthDate(contract.getStartHealthDate());
+        dbContract.setPensionEnterprise(contract.getPensionEnterprise());
+        dbContract.setStartPensionDate(contract.getStartPensionDate());
+        dbContract.setFkuserID(contract.getFkuserID());
+        dbContract.getPositionSet().add(positionDAO.searchByID(contractPosition));
+        return dbContract;
     }
 
     public int getAmountOfSalariesEquals(double salary) {
@@ -72,9 +83,32 @@ public class ContractDAO implements Serializable {
     }
 
     public Contract getUserContract(User id) {
+        Contract cont = null;
         Query q = em.createNamedQuery("Contract.findByfkuserID");
         q.setParameter("fkuserID", id);
-        Contract cont = (Contract) q.getSingleResult();
-        return cont;
+
+        try {
+            cont = (Contract) q.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("El usuario no tiene contrato");
+        } finally {
+            return cont;
+        }
+    }
+
+    public Contract getById(Integer id) {
+        Contract cont = null;
+        Query q = em.createNamedQuery("Contract.findByPkID");
+        q.setParameter("pkID", id);
+
+        try {
+            cont = (Contract) q.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("No se encontr[o el contrato");
+        } finally {
+            return cont;
+        }
     }
 }

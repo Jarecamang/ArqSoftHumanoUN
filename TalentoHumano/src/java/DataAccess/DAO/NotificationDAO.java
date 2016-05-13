@@ -7,40 +7,28 @@ package DataAccess.DAO;
 
 import DataAccess.Entity.Notifications;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
  *
  * @author Edwin
  */
+@Stateless
 public class NotificationDAO {
-
-    public EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("TalentoHumanoPU");
+ 
+    @PersistenceContext(unitName = "TalentoHumanoPU")
+    private EntityManager em;
 
     public Notifications persist(Notifications noti) {
-
-        EntityManager em = emf1.createEntityManager();
-        em.getTransaction().begin();
-        try {
-            em.persist(noti);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-                em.close();
-            }
-            return null;
-        }
-        em.close();
+        em.persist(noti);
         return noti;
     }
 
     public List<Notifications> searchAll() {
 
-        EntityManager em = emf1.createEntityManager();
         List<Notifications> notiObject = null;
         Query q = em.createNamedQuery("Notifications.findAll");
 
@@ -49,9 +37,9 @@ public class NotificationDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            em.close();
             return notiObject;
         }
     }
 
 }
+ 

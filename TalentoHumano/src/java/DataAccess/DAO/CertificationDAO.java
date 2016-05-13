@@ -6,33 +6,22 @@
 package DataAccess.DAO;
 
 import DataAccess.Entity.Certifications;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Edwin
  */
+@Stateless
 public class CertificationDAO {
 
-    public EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("TalentoHumanoPU");
+    @PersistenceContext(unitName = "TalentoHumanoPU")
+    private EntityManager em;
 
     public Certifications persist(Certifications certification) {
-
-        EntityManager em = emf1.createEntityManager();
-        em.getTransaction().begin();
-        try {
-            em.persist(certification);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-                em.close();
-            }
-            return null;
-        }
-        em.close();
+        em.persist(certification);
         return certification;
     }
 

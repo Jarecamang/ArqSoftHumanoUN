@@ -79,11 +79,10 @@ public class HandleUser {
         return us;
     }
 
-    public void uploadPersonalData(UserDAO userDAO, String username) {
+    public void uploadPersonalData(ContractDAO contrDAO, UserDAO userDAO, String username) {
         User userObject = userDAO.searchByUsername(username);
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.getSessionMap().put("userData", userObject);
-        ContractDAO contrDAO = new ContractDAO();
         Contract contractObject = contrDAO.getUserContract(new User(userObject.getPkID()));
         ec.getSessionMap().put("userContract", contractObject);
     }

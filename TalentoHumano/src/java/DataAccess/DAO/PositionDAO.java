@@ -6,6 +6,7 @@
 package DataAccess.DAO;
 
 import DataAccess.Entity.Position;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +20,7 @@ import javax.persistence.Query;
  * @author Alejandro
  */
 @Stateless
-public class PositionDAO {
+public class PositionDAO implements Serializable {
 
     @PersistenceContext(unitName = "TalentoHumanoPU")
     private EntityManager em;

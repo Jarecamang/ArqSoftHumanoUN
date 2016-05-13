@@ -11,6 +11,7 @@ import BusinessLogic.Controller.HandleNotifications;
 import BusinessLogic.Controller.HandlePosition;
 import BusinessLogic.Controller.HandleUser;
 import DataAccess.DAO.ContractDAO;
+import DataAccess.DAO.NotificationDAO;
 import DataAccess.DAO.PositionDAO;
 import DataAccess.DAO.UserDAO;
 import javax.ejb.EJB;
@@ -33,6 +34,8 @@ public class LoginBean {
     private ContractDAO contractDAO;
     @EJB
     private PositionDAO positionDAO;
+    @EJB
+    private NotificationDAO notiDAO;
 
     public LoginBean() {
     }
@@ -61,7 +64,7 @@ public class LoginBean {
         this.message = message;
     }
 
-    public void login() {
+    public void login() { 
         HandleLogin login = new HandleLogin();
         message = login.doLogin(userDAO, user, password);
         if (message.charAt(0) == 'A') {//solo admin
@@ -75,7 +78,7 @@ public class LoginBean {
             hu.uploadPersonalData(contractDAO, userDAO, user);
         }
         HandleNotifications hn = new HandleNotifications();
-        hn.getNotifications();
+        hn.getNotifications(notiDAO); 
     }
 
     public void logout() {

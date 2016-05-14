@@ -6,6 +6,7 @@
 package DataAccess.DAO;
 
 import DataAccess.Entity.Notifications;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,7 +18,7 @@ import javax.persistence.Query;
  * @author Edwin
  */
 @Stateless
-public class NotificationDAO {
+public class NotificationDAO implements Serializable {
  
     @PersistenceContext(unitName = "TalentoHumanoPU")
     private EntityManager em;

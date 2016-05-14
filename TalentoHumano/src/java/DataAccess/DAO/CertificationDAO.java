@@ -6,6 +6,7 @@
 package DataAccess.DAO;
 
 import DataAccess.Entity.Certifications;
+import java.io.Serializable;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author Edwin
  */
 @Stateless
-public class CertificationDAO {
+public class CertificationDAO implements Serializable {
 
     @PersistenceContext(unitName = "TalentoHumanoPU")
     private EntityManager em;

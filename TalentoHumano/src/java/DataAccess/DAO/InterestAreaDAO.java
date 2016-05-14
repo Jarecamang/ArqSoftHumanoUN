@@ -1,6 +1,7 @@
 package DataAccess.DAO;
 
 import DataAccess.Entity.Areaofinterest;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,7 +15,7 @@ import javax.persistence.Query;
  * @author Edwin
  */
 @Stateless
-public class InterestAreaDAO {
+public class InterestAreaDAO implements Serializable {
 
     @PersistenceContext(unitName = "TalentoHumanoPU")
     private EntityManager em;

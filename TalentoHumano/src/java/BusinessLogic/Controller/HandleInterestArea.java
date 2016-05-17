@@ -33,9 +33,14 @@ public class HandleInterestArea {
         for (Areaofinterest area : areaslist) {
             if (area.getUserSet().contains(user)) {
                 userAreas.add(area.getName());
-            }
+            } 
         }
         return userAreas;
-    }
+    } 
 
+    public List<Areaofinterest> getAllInterestAreas(InterestAreaDAO areaDAO){
+        List<Areaofinterest> areaslist = areaDAO.getAllAreasOfInterest();
+        return areaslist;
+    }
+    
 }

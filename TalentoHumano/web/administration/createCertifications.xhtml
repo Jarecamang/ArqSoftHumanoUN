@@ -38,7 +38,7 @@ and open the template in the editor.
                             <hr/>
                             <p>Seleccione el Area de interes para la cual desea crear la certificacion:</p>
                             <p:selectOneMenu value="#{createCertificationBean.name}" style="width: 200px;">
-                                <f:selectItems value="${interestAreaBean.getInterestAreas(sessionScope.userData.username)}" var="area" itemValue="#{area}" itemLabel="#{area}" />
+                                <f:selectItems value="${interestAreaBean.getAllInterestAreas()}" var="area" itemValue="#{area}" itemLabel="#{area}" />
                             </p:selectOneMenu>
                             <br/><br/>
                             <label>Mensaje: </label>

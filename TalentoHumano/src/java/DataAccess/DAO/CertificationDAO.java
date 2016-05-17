@@ -22,8 +22,13 @@ public class CertificationDAO implements Serializable {
     private EntityManager em;
 
     public Certifications persist(Certifications certification) {
-        em.persist(certification);
+        
+        try {
+            em.persist(certification);
         return certification;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

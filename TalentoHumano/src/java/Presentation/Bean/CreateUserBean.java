@@ -15,6 +15,7 @@ import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -22,8 +23,7 @@ import javax.inject.Named;
  *
  * @author Alejandro
  */
-@SessionScoped
-@Named("createUserBean")
+@ViewScoped
 @ManagedBean(name = "createUserBean")
 public class CreateUserBean {
 
@@ -243,6 +243,8 @@ public class CreateUserBean {
 
     public void createUser() {
         FacesContext context = FacesContext.getCurrentInstance();
+        System.out.println(startHealth);
+        System.out.println(startPension);
         if (contractType.equals("Indefinido") && contractFinalDate != null) {
             message = "El usuario no pudo ser creado pues el contrato es indefinido pero tiene fecha de finalizacion";
             contractMessage = "No se pudo crear el contrato porque es indefinido pero tiene fecha de finalizacion";

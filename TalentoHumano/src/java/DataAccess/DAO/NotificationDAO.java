@@ -19,13 +19,18 @@ import javax.persistence.Query;
  */
 @Stateless
 public class NotificationDAO implements Serializable {
- 
+
     @PersistenceContext(unitName = "TalentoHumanoPU")
     private EntityManager em;
 
     public Notifications persist(Notifications noti) {
-        em.persist(noti);
-        return noti;
+        try {
+            em.persist(noti);
+            return noti;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     public List<Notifications> searchAll() {
@@ -43,4 +48,3 @@ public class NotificationDAO implements Serializable {
     }
 
 }
- 

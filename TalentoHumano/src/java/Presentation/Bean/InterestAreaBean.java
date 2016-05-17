@@ -4,6 +4,7 @@ package Presentation.Bean;
 import BusinessLogic.Controller.HandleInterestArea;
 import DataAccess.DAO.InterestAreaDAO;
 import DataAccess.DAO.UserDAO;
+import DataAccess.Entity.Areaofinterest;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -51,6 +52,11 @@ public class InterestAreaBean {
     public List<String> getInterestAreas(String username){
         HandleInterestArea ha = new HandleInterestArea();
         return ha.getListOfInterestAreas(userDAO,interestAreaDAO,username);
+    }
+    
+    public List<Areaofinterest> getAllInterestAreas(){
+        HandleInterestArea ha = new HandleInterestArea();
+        return ha.getAllInterestAreas(interestAreaDAO);
     }
     
 }

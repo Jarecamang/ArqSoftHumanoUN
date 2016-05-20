@@ -30,7 +30,6 @@ public class HandleNotifications {
             }
         }
         ec.getSessionMap().put("notificationCertificationsList", nueva);
-        System.out.println(ec.getSessionMap().get("notificationCertificationsList"));
         }
     
 }

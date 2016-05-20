@@ -21,8 +21,21 @@ public class InterestAreaDAO implements Serializable {
     private EntityManager em;
 
     public Areaofinterest persist(Areaofinterest area) {
-        em.persist(area);
-        return area;
+        try{
+            em.persist(area);
+            return area;
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
+    public Areaofinterest update(Areaofinterest area) {
+        try {
+            em.merge(area);
+            return area;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Areaofinterest> getAllAreasOfInterest() {
@@ -37,5 +50,18 @@ public class InterestAreaDAO implements Serializable {
             return areaObject;
         }
     }
+    
+    public Areaofinterest searchByName(String name) {
+        Areaofinterest area = null;
+        Query query = em.createNamedQuery("Areaofinterest.findByName");
+        query.setParameter("name",name);
+        try {
+            area = (Areaofinterest)query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return area;
+        }
+    } 
 
 }
